@@ -32,6 +32,20 @@ def le_mapa (numero)
 	mapa = texto.split "\n"
 end
 
+def posicao_valida?(mapa,posicao)
+	linhas = mapa.size
+	colunas = mapa[0].size
+
+	passou_max_linha = posicao[0] < 0 || posicao[0] >= linhas
+	passou_max_coluna = posicao[1] <0 || posicao[1] >= colunas
+
+	return false if passou_max_coluna || passou_max_linha
+
+	return false if mapa[posicao[0]][posicao[1]] == "X"
+
+	true
+end
+
 def joga(nome)
 	mapa = le_mapa 1
 
@@ -40,7 +54,7 @@ def joga(nome)
 		direcao = pede_movimento
 		heroi = encontra_jogador mapa
 		nova_posicao = calcula_nova_posicao heroi, direcao
-		next if mapa[nova_posicao[0]][nova_posicao[1]] == "X"
+		next if !posicao_valida? mapa,nova_posicao
 		mapa[heroi[0]][heroi[1]] = " "
 		mapa[nova_posicao[0]][nova_posicao[1]] = "H"
 	end
